@@ -20,4 +20,8 @@ public class HANG {
     public void xuat(){
         System.out.printf("%-12s%-12s%.2f", mahang, tenhang, dongia);
     }
+
+    public float getDongia() {
+        return dongia;
+    }
 }

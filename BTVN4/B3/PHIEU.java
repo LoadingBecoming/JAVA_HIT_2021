@@ -24,10 +24,13 @@ public class PHIEU {
 
     public void xuat(){
         System.out.println("Ma phieu: " + maphieu);
+        float sum = 0;
         System.out.printf("%-12s%-12s%s \n", "Ma hang", "Ten hang", "Don gia");
         for(int i=0;i<n;i++){
             x[i].xuat();
+            sum += x[i].getDongia();
             System.out.println();
         }
+        System.out.println("Tong tien la: " + sum);
     }
 }
