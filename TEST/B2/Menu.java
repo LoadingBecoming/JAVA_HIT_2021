@@ -10,20 +10,47 @@ public class Menu {
     ArrayList<Book> A = new ArrayList<>();
 
     public void addBook(){
-        System.out.println("Nhap thong tin bokk can them: ");
-        Book B = new Book();
-        System.out.print("Nhap id book: " );
-        B.setId(sc.nextLine());
-        System.out.print("Nhap name book: ");
-        B.setName(sc.nextLine());
-        System.out.print("Nhap publisher: ");
-        B.setPublisher(sc.nextLine());
-        System.out.print("Nhap gia: ");
-        B.setPrice(sc.nextFloat());
-        System.out.print("Nhap so trang sach: ");
-        B.setNumberOfPageAuthor(sc.nextInt());
+        int n;
+        System.out.print("Nhap so luong book muon them: ");
+        n = sc.nextInt();
         sc.nextLine();
-        A.add(B);
+        while(n>0){
+            String id;
+            System.out.print("Nhap id muon them: ");
+            id = sc.nextLine();
+
+            while(true){
+                int check = 0;
+                for(int i=0;i< A.size();i++){
+                    if(A.get(i).getId().equals(id)){
+                        check = 1;
+                        break;
+                    }
+                }
+                if(check == 1){
+                    System.out.println("id da co vui long nhap lai!");
+                    break;
+                }
+                else{
+                    System.out.println("-id nay chua co vui long nhap thong tin book can them: ");
+                    Book B = new Book();
+                    System.out.print("Nhap id book: " );
+                    B.setId(sc.nextLine());
+                    System.out.print("Nhap name book: ");
+                    B.setName(sc.nextLine());
+                    System.out.print("Nhap publisher: ");
+                    B.setPublisher(sc.nextLine());
+                    System.out.print("Nhap gia: ");
+                    B.setPrice(sc.nextFloat());
+                    System.out.print("Nhap so trang sach: ");
+                    B.setNumberOfPageAuthor(sc.nextInt());
+                    sc.nextLine();
+                    A.add(B);
+                    n--;
+                    break;
+                }
+            }
+        }
     }
 
     public void editBook(int id){
@@ -54,15 +81,6 @@ public class Menu {
                 return (b1.getPrice() < b2.getPrice() ? 1:-1);
             }
         });
-
-        /*int n = A.size();
-        for(int i=0;i<n;i++){
-            for(int j=i+1;j<n;j++){
-                if(A.get(i).getPrice() < A.get(j).getPrice()){
-                    Collections.swap(A,i,j);
-                }
-            }
-        }*/
     }
 
     public void ShowAllBook(){
