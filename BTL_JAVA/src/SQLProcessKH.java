@@ -15,9 +15,9 @@ public class SQLProcessKH {
         }
     }
 
-    public static int insertKH(int idK, String tenK, String gioiTinhK, String diaChiK, String emailK, String phoneK,
+    public static int insertKH(String tenK, String gioiTinhK, String diaChiK, String emailK, String phoneK,
                                         String usernameK, String passwordK, int viTien) {
-        String sqlInsert = "insert into KhachHang values ('" + idK + "', N'" + tenK + "', N'" + gioiTinhK + "', N'" +
+        String sqlInsert = "insert into KhachHang values ( N'" + tenK + "', N'" + gioiTinhK + "', N'" +
                 diaChiK + "', '" + emailK + "', '" + phoneK + "', '" + usernameK + "', '" + passwordK + "', '" + viTien + "')";
         try {
             return statement.executeUpdate(sqlInsert);

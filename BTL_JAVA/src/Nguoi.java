@@ -1,4 +1,5 @@
 public class Nguoi implements Comparable<Nguoi>{
+
     private String ten, gioiTinh, diaChi, email, phone, username, password;
     private int id;
 
@@ -113,6 +114,15 @@ public class Nguoi implements Comparable<Nguoi>{
                 '}';
     }
 
+    public void showMe(){
+        System.out.printf("%-10d %-30s %-20s %-20s %-25s %-17s %-15s %s \n", getId(), getTen(), getGioiTinh(), getDiaChi(),
+                getEmail(), getPhone(), getUsername(), getPassword());
+    }
+
+    public void showMe2(){
+        System.out.printf("%-10d %-30s %-20s %-20s %-25s %-17s \n", getId(), getTen(), getGioiTinh(), getDiaChi(),
+                getEmail(), getPhone());
+    }
 
     @Override
     public int compareTo(Nguoi o) {

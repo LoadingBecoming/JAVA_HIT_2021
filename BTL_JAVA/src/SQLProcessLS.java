@@ -17,8 +17,8 @@ public class SQLProcessLS {
         }
     }
 
-    public static int insertLS(String Ls, String thoiGian){
-        String sqlInsert = "insert into lichSu values ('"+Ls+"', '"+thoiGian+"')";
+    public static int insertLS(int idK, String Ls, String thoiGian){
+        String sqlInsert = "insert into lichSu values ('"+idK+"', '"+Ls+"', '"+thoiGian+"')";
         try {
             return statement.executeUpdate(sqlInsert);
         } catch (SQLException e) {
@@ -27,15 +27,16 @@ public class SQLProcessLS {
         }
     }
 
-    public static List<lichSu> showLS(){
+    public static List<lichSu> showLS(int idK){
         List<lichSu> dsLS = new ArrayList<>();
-        String sql = "Select * from LichSu";
+        String sql = "Select * from LichSu where IdK = '"+idK+"'";
         try {
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()){
                 lichSu lichSu = new lichSu(
-                        resultSet.getString(1).trim(),
-                        resultSet.getString(2).trim()
+                        resultSet.getInt(1),
+                        resultSet.getString(2).trim(),
+                        resultSet.getString(3).trim()
                 );
                 dsLS.add(lichSu);
             }

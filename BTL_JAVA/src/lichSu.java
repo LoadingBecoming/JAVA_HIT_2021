@@ -1,35 +1,34 @@
 public class lichSu {
+    private int idK;
     private String Ls, date;
 
     public lichSu() {
     }
 
-    public lichSu(String ls, String date) {
+    public lichSu(int idK, String ls, String date) {
+        this.idK = idK;
         Ls = ls;
         this.date = date;
     }
 
+
     public String getLs() {
         return Ls;
-    }
-
-    public void setLs(String ls) {
-        Ls = ls;
     }
 
     public String getDate() {
         return date;
     }
 
-    public void setDate(String date) {
-        this.date = date;
-    }
-
     @Override
     public String toString() {
         return "lichSu{" +
                 "Ls='" + Ls + '\'' +
-                ", date='" + date + '\'' +
+                ", date='" + date +
                 '}';
+    }
+
+    public void showNDLS(){
+        System.out.printf("%-35s %s \n", getLs(), getDate());
     }
 }

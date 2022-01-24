@@ -11,34 +11,41 @@ public class RunMain {
     static SQLProcessKH PrK = new SQLProcessKH();
     static CreatAcc acc = new CreatAcc();
     static Film film = new Film();
-    static SQLProcessGhe PrG = new SQLProcessGhe();
     static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
     static Date date;
     static SQLProcessLS PrL;
-    static Nguoi nguoi = new Nguoi();
     static QuanLy quanLy = new QuanLy();
     static SQLProcessQL PrQ = new SQLProcessQL();
     static SQLProcessFilm PrF = new SQLProcessFilm();
+    static SQLProcessVe PrV = new SQLProcessVe();
+    static SQLProcessDV PrDV = new SQLProcessDV();
+    static SQLProcessDT PrDT = new SQLProcessDT();
+    static SQLProcessGT PrGT = new SQLProcessGT();
 
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) throws SQLException, InterruptedException {
         Connection conn = SQLServerConnection.getJDBCConnection();
         Statement statement = conn.createStatement();
 
         while (true){
-            System.out.println("Bạn là ai?...");
-            System.out.println("1.Khách hàng");
-            System.out.println("2.Quản lý");
-            System.out.println("3.Exit!");
-            System.out.println("Mời nhập lựa chọn: ");
+            System.out.println("|```````````````````````|");
+            System.out.println("| Bạn là ai?...         |");
+            System.out.println("| 1.Khách hàng          |");
+            System.out.println("| 2.Quản lý             |");
+            System.out.println("| 3.Exit!               |");
+            System.out.println("|_______________________|");
+            System.out.print("Mời nhập lựa chọn: ");
             int n = sc.nextInt();
             switch (n){
                 case 1:
                     int stop = 1;
                     while (stop == 1){
-                        System.out.println("1.Đã có tài khoản!");
-                        System.out.println("2.Tạo tài khoản!");
-                        System.out.println("3.Exit!");
-                        System.out.println("Nhập lựa chọn: ");
+                        System.out.println("|`````````````````````````|");
+                        System.out.println("|                        (1)|");
+                        System.out.println("| 1.Đã có tài khoản!      |");
+                        System.out.println("| 2.Tạo tài khoản!        |");
+                        System.out.println("| 3.Exit!                 |");
+                        System.out.println("|_________________________|");
+                        System.out.print("Nhập lựa chọn: ");
                         int x = sc.nextInt();
                         switch (x){
                             case 1:
@@ -72,7 +79,7 @@ public class RunMain {
         return -1;
     }
 
-    public static void LoginK() throws SQLException {
+    public static void LoginK() throws SQLException, InterruptedException {
         sc.nextLine();
         String tk, mk;
         int idK = 0;
@@ -89,15 +96,22 @@ public class RunMain {
     }
 
 
-    public static void AcctiveKH(int idK) throws SQLException {
+    public static void AcctiveKH(int idK) throws SQLException, InterruptedException {
         int stop = 1;
         while (stop == 1){
-            System.out.println("1.Show in4 bản thân!");
-            System.out.println("2.Nạp tiền!");
-            System.out.println("3.Thay đổi thông tin cá nhân!");
-            System.out.println("4.Xem danh sách phim!");
-            System.out.println("5.Xem lịch sử hoạt động!");
-            System.out.println("6.Exit!");
+            System.out.println("|`````````````````````````````````````````|");
+            System.out.println("|                                      (1.1)|");
+            System.out.println("| 1.Show in4 bản thân!                    |");
+            System.out.println("| 2.Thay đổi thông tin cá nhân!           |");
+            System.out.println("| 3.Đặt phim!                             |");
+            System.out.println("| 4.Xem các chỗ ngồi đã đặt!              |");
+            System.out.println("| 5.Nạp tiền!                             |");
+            System.out.println("| 6.Xem lịch sử hoạt động!                |");
+            System.out.println("| 7.Exit!                                 |");
+            if(PrGT.lanQuay(idK, PrGT.getDK()) > 0){
+                System.out.println("| 8.Quay thưởng bí ẩn!                   |");
+            }
+            System.out.println("|_________________________________________|");
             System.out.print("Nhập lựa chọn: ");
             int x = sc.nextInt();
             System.out.println();
@@ -107,78 +121,194 @@ public class RunMain {
                     System.out.println();
                     break;
                 case 2:
-                    K.napTien(idK);
-                    break;
-                case 3:
                     changeK(idK);
                     break;
-                case 4:
+                case 3:
                     int thoat = 1;
                     while (thoat == 1){
                         dsPhim();
                         System.out.println();
-                        System.out.println("1.Đặt ghế!");
-                        System.out.println("2.Hủy ghế!");
-                        System.out.println("3.Exit!");
+                        System.out.println("|``````````````````````|");
+                        System.out.println("|                   (1.2)|");
+                        System.out.println("| 1.Đặt ghế!           |");
+                        System.out.println("| 2.Hủy ghế!           |");
+                        System.out.println("| 3.Exit!              |");
+                        System.out.println("|______________________|");
                         System.out.print("Nhập lựa chọn: ");
                         int z = sc.nextInt();
                         switch (z){
                             case 1:
-                                System.out.print("Nhập id phim muốn đặt ghế: ");
-                                int idP = sc.nextInt();
-                                PrG.gheTrong(PrG.mangSoGhe(idP), idP);
-                                System.out.print("Bạn muốn đặt ghế số: ");
-                                int soG = sc.nextInt();
-                                PrG.updateG(PrG.themGhe(soG,idP),idP);
-                                System.out.println("Đặt ghế thành công!");
-                                K.truTien(idK);
-                                System.out.println();
-
-                                String dG = "Bạn đã đặt 1 ghế xem phim!";
-                                date = new Date();
-                                PrL.insertLS(dG, simpleDateFormat.format(date));
+                                DatGhe(idK);
                                 break;
                             case 2:
-                                System.out.print("Nhập id phim muốn hủy ghế: ");
-                                int iP = sc.nextInt();
-                                System.out.print("Bạn muốn hủy ghế số: ");
-                                int sG = sc.nextInt();
-                                PrG.huyGhe(PrG.mangSoGhe(iP),sG, iP);
-                                System.out.println("Bạn đã hủy đặt ghế thành công!");
-                                K.themTien(idK);
-                                System.out.println();
-
-                                String hG = "Bạn đã hủy ghế xem phim!";
-                                date = new Date();
-                                PrL.insertLS(hG, simpleDateFormat.format(date));
+                                HuyGhe(idK);
                                 break;
                             case 3:
                                 thoat = 0;
                         }
                     }
                     break;
+                case 4:
+                    PrDV.showGDV(PrDV.mangIdPDV(idK), idK);
+                    break;
                 case 5:
-                    System.out.println("Lịch sử hoạt động");
-                    showLs();
-                    System.out.println();
+                    K.napTien(idK);
                     break;
                 case 6:
+                    showLs(idK);
+                    System.out.println();
+                    break;
+                case 7:
+                    stop = 0;
+                case 8:
+                    if(PrGT.lanQuay(idK, PrGT.getDK()) > 0){
+                        PrGT.quayThuong(idK, PrGT.getDK());
+                    }
+                    break;
+            }
+        }
+    }
+
+
+    public static void DatGhe(int idK) throws SQLException {
+        int stop = 1;
+        int VNL = PrV.getVNL();
+        int VTE = PrV.getVTE();
+        while (stop == 1){
+            System.out.println("|`````````````````````````````````|");
+            System.out.println("|                              (1.3)|");
+            System.out.println("| 1.Giá vé người lớn: " + VNL + "         |");
+            System.out.println("| 2.Giá vé trẻ em: " + VTE + "             |");
+            System.out.println("| 3.Exit!                         |");
+            System.out.println("|_________________________________|");
+            System.out.print("Nhập lựa chọn: ");
+            int x = sc.nextInt();
+            switch (x){
+                case 1:
+                    if(K.checkViTien(idK) >= VNL){
+                        System.out.print("Nhập id phim muốn đặt ghế: ");
+                        int idP = sc.nextInt();
+                        while (true){
+                            PrDV.gheTrongDV(PrDV.mangSoGheDV(idP));
+                            PrDV.gheTrongDV(PrDV.mangSoGheDV(idP, idK, "NL"), idP, idK, "NL");
+                            System.out.print("Bạn muốn đặt ghế số: ");
+                            int soG = sc.nextInt();
+                            if(PrDV.checkDatDV(PrDV.mangSoGheDV(idP), soG)){
+                                PrDV.updateDV(PrDV.themGheDV(soG, idP, idK, "NL"), idP, idK, "NL");
+                                System.out.println("Đặt ghế thành công!");
+                                K.truTien(idK, PrV.getVNL());
+                                PrDT.upNL();
+                                System.out.println();
+
+                                String dG = "Bạn đã đặt 1 ghế xem phim!";
+                                date = new Date();
+                                PrL.insertLS(idK,dG, simpleDateFormat.format(date));
+                                break;
+                            } else {
+                                System.out.println("Ghế này không thể đặt! NHẬP LẠI!");
+                            }
+                        }
+                    } else {
+                        System.out.println("Ví tiền của bạn không đủ, HÃY NẠP TIỀN!");
+                        System.out.println();
+                    }
+                    break;
+                case 2:
+                    if(K.checkViTien(idK) >= VTE){
+                        System.out.print("Nhập id phim muốn đặt ghế: ");
+                        int idP = sc.nextInt();
+                        while (true){
+                            PrDV.gheTrongDV(PrDV.mangSoGheDV(idP));
+                            PrDV.gheTrongDV(PrDV.mangSoGheDV(idP, idK, "TE"), idP, idK, "TE");
+                            System.out.print("Bạn muốn đặt ghế số: ");
+                            int soG = sc.nextInt();
+                            if(PrDV.checkDatDV(PrDV.mangSoGheDV(idP), soG)){
+                                PrDV.updateDV(PrDV.themGheDV(soG, idP, idK, "TE"), idP, idK, "TE");
+                                System.out.println("Đặt ghế thành công!");
+                                K.truTien(idK, PrV.getVTE());
+                                PrDT.upTE();
+                                System.out.println();
+
+                                String dG = "Bạn đã đặt 1 ghế xem phim!";
+                                date = new Date();
+                                PrL.insertLS(idK,dG, simpleDateFormat.format(date));
+                                break;
+                            } else {
+                                System.out.println("Ghế này không thể đặt! NHẬP LẠI!");
+                            }
+                        }
+                    } else {
+                        System.out.println("Ví tiền của bạn không đủ, HÃY NẠP TIỀN!");
+                        System.out.println();
+                    }
+                    break;
+                case 3:
                     stop = 0;
             }
+        }
+    }
+
+    public static void HuyGhe(int idK) throws SQLException {
+        System.out.print("Nhập id phim muốn hủy ghế: ");
+        int iP = sc.nextInt();
+        if(PrDV.mangSoGheDV(iP, idK).size() > 0){
+            while (true){
+                System.out.println("Các số ghế bạn đã đặt là: ");
+                System.out.println(PrDV.mangSoGheDV(iP, idK));
+                System.out.print("Người lớn: ");
+                System.out.println(PrDV.mangSoGheDV(iP, idK, "NL"));
+                System.out.print("Trẻ em: ");
+                System.out.println(PrDV.mangSoGheDV(iP, idK, "TE"));
+                System.out.print("Bạn muốn hủy ghế số: ");
+                int sG = sc.nextInt();
+                if(PrDV.checkHuyDV(PrDV.mangSoGheDV(iP, idK), sG)){
+                    PrDV.huyGheDV(PrDV.mangSoGheDV(iP, idK, "NL"), sG, iP, idK, "NL");
+                    PrDV.huyGheDV(PrDV.mangSoGheDV(iP, idK, "TE"), sG, iP, idK, "TE");
+
+                    for(int i=0;i<PrDV.mangSoGheDV(iP, idK, "NL").size();i++){
+                        if(PrDV.mangSoGheDV(iP, idK, "NL").get(i) == sG){
+                            K.themTien(idK, PrV.getVNL());
+                            break;
+                        }
+                    }
+                    for(int i=0;i<PrDV.mangSoGheDV(iP, idK, "TE").size();i++){
+                        if(PrDV.mangSoGheDV(iP, idK, "TE").get(i) == sG){
+                            K.themTien(idK, PrV.getVTE());
+                            break;
+                        }
+                    }
+
+                    System.out.println("Bạn đã hủy đặt ghế thành công!");
+                    System.out.println();
+
+                    String hG = "Bạn đã hủy ghế xem phim!";
+                    date = new Date();
+                    PrL.insertLS(idK, hG, simpleDateFormat.format(date));
+                    break;
+                } else {
+                    System.out.println("Bạn không đặt số ghế này, KHÔNG THỂ HỦY, NHẬP LẠI!");
+                }
+            }
+        } else {
+            System.out.println("Bạn chưa đặt ghế nên không thể hủy! HÃY ĐẶT GHẾ!");
+            System.out.println();
         }
     }
 
     public static void changeK(int idK) throws SQLException {
         int stop = 1;
         while (stop == 1){
-            System.out.println("1.Đổi Tên");
-            System.out.println("2.Giới tính");
-            System.out.println("3.Địa chỉ");
-            System.out.println("4.Email");
-            System.out.println("5.Phone");
-            System.out.println("6.UserName");
-            System.out.println("7.Password");
-            System.out.println("8.Exit!");
+            System.out.println("|``````````````````````````|");
+            System.out.println("|                       (1.2)|");
+            System.out.println("| 1.Đổi Tên                |");
+            System.out.println("| 2.Giới tính              |");
+            System.out.println("| 3.Địa chỉ                |");
+            System.out.println("| 4.Email                  |");
+            System.out.println("| 5.Phone                  |");
+            System.out.println("| 6.UserName               |");
+            System.out.println("| 7.Password               |");
+            System.out.println("| 8.Exit!                  |");
+            System.out.println("|__________________________|");
             System.out.print("Nhập lựa chọn: ");
             int y = sc.nextInt();
             switch (y){
@@ -192,7 +322,7 @@ public class RunMain {
 
                     String ten = "Bạn đã thay đổi tên!";
                     date = new Date();
-                    PrL.insertLS(ten, simpleDateFormat.format(date));
+                    PrL.insertLS(idK, ten, simpleDateFormat.format(date));
                     break;
                 case 2:
                     System.out.print("Nhập Giới tính: ");
@@ -204,7 +334,7 @@ public class RunMain {
 
                     String gt = "Bạn đã thay đổi giới tính!";
                     date = new Date();
-                    PrL.insertLS(gt, simpleDateFormat.format(date));
+                    PrL.insertLS(idK, gt, simpleDateFormat.format(date));
                     break;
                 case 3:
                     System.out.print("Nhập Địa chỉ: ");
@@ -216,7 +346,7 @@ public class RunMain {
 
                     String dc = "Bạn đã thay đổi địa chỉ!";
                     date = new Date();
-                    PrL.insertLS(dc, simpleDateFormat.format(date));
+                    PrL.insertLS(idK, dc, simpleDateFormat.format(date));
                     break;
                 case 4:
                     System.out.print("Nhập Email: ");
@@ -228,7 +358,7 @@ public class RunMain {
 
                     String em = "Bạn đã thay đổi Email!";
                     date = new Date();
-                    PrL.insertLS(em, simpleDateFormat.format(date));
+                    PrL.insertLS(idK, em, simpleDateFormat.format(date));
                     break;
                 case 5:
                     System.out.print("Nhập Phone: ");
@@ -240,7 +370,7 @@ public class RunMain {
 
                     String ph = "Bạn đã thay đổi sđt!";
                     date = new Date();
-                    PrL.insertLS(ph, simpleDateFormat.format(date));
+                    PrL.insertLS(idK, ph, simpleDateFormat.format(date));
                     break;
                 case 6:
                     System.out.print("Nhập new Username: ");
@@ -252,7 +382,7 @@ public class RunMain {
 
                     String us = "Bạn đã thay đổi Username!";
                     date = new Date();
-                    PrL.insertLS(us, simpleDateFormat.format(date));
+                    PrL.insertLS(idK, us, simpleDateFormat.format(date));
                     break;
                 case 7:
                     System.out.print("Nhập new pass: ");
@@ -264,7 +394,7 @@ public class RunMain {
 
                     String pw = "Bạn đã thay đổi Password!";
                     date = new Date();
-                    PrL.insertLS(pw, simpleDateFormat.format(date));
+                    PrL.insertLS(idK, pw, simpleDateFormat.format(date));
                     break;
                 case 8:
                     stop = 0;
@@ -281,7 +411,8 @@ public class RunMain {
         String emailK = acc.creEmail();
         String phoneK = acc.crePhone();
         int idK = K.creIDKH(K.allDsKH());
-        PrK.insertKH(idK, NameK, gioiTinhK, diaChiK, emailK, phoneK, userNameK, passK, 0);
+        PrK.insertKH(NameK, gioiTinhK, diaChiK, emailK, phoneK, userNameK, passK, 0);
+        PrGT.insertCheckGT(idK, 0);
         System.out.println("Tạo account thành công!");
     }
 
@@ -291,11 +422,12 @@ public class RunMain {
         film.showP(film.allDsP());
     }
 
-    public static void showLs(){
+    public static void showLs(int idk){
         List<lichSu> dsLS = new ArrayList<>();
-        dsLS = PrL.showLS();
+        dsLS = PrL.showLS(idk);
+        System.out.printf("%-40s %s \n","Lịch sử hoạt động", "Thời gian");
         for(lichSu lichsu:dsLS){
-            System.out.println(lichsu);
+            lichsu.showNDLS();
         }
     }
 
@@ -341,16 +473,19 @@ public class RunMain {
     public static void AcctiveQL(int idQ) throws SQLException {
         int stop = 1;
         while (stop == 1){
-            System.out.println("1.Show in4 bản thân!");
-            System.out.println("2.Thay đổi thông tin cá nhân!");
-            System.out.println("3.Xem danh sách quản lý!");
-            System.out.println("4.Tìm kiếm Ql theo tên!");
-            System.out.println("5.Xem danh sách khách hàng!");
-            System.out.println("6.Thêm/Xóa phim!");
-            System.out.println("7.Exit!");
+            System.out.println("|`````````````````````````````````````|");
+            System.out.println("|                                    (2)|");
+            System.out.println("| 1.Show in4 bản thân!                |");
+            System.out.println("| 2.Thay đổi thông tin cá nhân!       |");
+            System.out.println("| 3.Xem danh sách quản lý!            |");
+            System.out.println("| 4.Xem danh sách khách hàng!         |");
+            System.out.println("| 5.Thêm/Xóa phim!                    |");
+            System.out.println("| 6.Tạo giá vé!                       |");
+            System.out.println("| 7.Thay đổi thưởng bí ẩn!            |");
+            System.out.println("| 8.Exit!                             |");
+            System.out.println("|_____________________________________|");
             System.out.print("Nhập lựa chọn: ");
             int x = sc.nextInt();
-            System.out.println();
             switch (x){
                 case 1:
                     quanLy.showIn4Me(quanLy.allDsQL(), idQ);
@@ -363,10 +498,14 @@ public class RunMain {
                     int thoat = 1;
                     while (thoat == 1){
                         System.out.println();
-                        System.out.println("1.Sắp xếp ds theo id!");
-                        System.out.println("2.Sắp xếp ds theo tên!");
-                        System.out.println("3.Exit!");
-                        System.out.println("Nhập lựa chọn: ");
+                        System.out.println("|`````````````````````````````|");
+                        System.out.println("|                          (2.1)|");
+                        System.out.println("| 1.Sắp xếp ds theo id!       |");
+                        System.out.println("| 2.Sắp xếp ds theo tên!      |");
+                        System.out.println("| 3.Tìm kiếm theo tên!        |");
+                        System.out.println("| 4.Exit!                     |");
+                        System.out.println("|_____________________________|");
+                        System.out.print("Nhập lựa chọn: ");
                         int y = sc.nextInt();
                         switch (y){
                             case 1:
@@ -376,25 +515,29 @@ public class RunMain {
                                 quanLy.sapXepTheoTen(quanLy.allDsQL());
                                 break;
                             case 3:
+                                sc.nextLine();
+                                System.out.print("Nhập từ muốn tìm kiếm: ");
+                                String ten = sc.nextLine();
+                                quanLy.showIn4One(quanLy.searchDsQL(ten));
+                                break;
+                            case 4:
                                 thoat = 0;
                         }
                     }
                     break;
                 case 4:
-                    System.out.print("Nhập tên muốn tìm kiếm: ");
-                    String ten = sc.nextLine();
-                    quanLy.showIn4One(quanLy.allDsQL(), ten);
-                    break;
-                case 5:
                     showKH();
                     break;
-                case 6:
+                case 5:
                     int quay = 1;
                     while (quay == 1){
-                        System.out.println("1.Thêm phim!");
-                        System.out.println("2.Xóa phim!");
-                        System.out.println("3.Exit!");
-                        System.out.println("Nhập lựa chọn: ");
+                        System.out.println("|``````````````````````|");
+                        System.out.println("|                   (2.1)|");
+                        System.out.println("| 1.Thêm phim!         |");
+                        System.out.println("| 2.Xóa phim!          |");
+                        System.out.println("| 3.Exit!              |");
+                        System.out.println("|______________________|");
+                        System.out.print("Nhập lựa chọn: ");
                         int y = sc.nextInt();
                         switch (y){
                             case 1:
@@ -408,7 +551,13 @@ public class RunMain {
                         }
                     }
                     break;
+                case 6:
+                    PrV.changeGia();
+                    break;
                 case 7:
+                    quanLy.changeGT();
+                    break;
+                case 8:
                     stop = 0;
             }
         }
@@ -417,14 +566,17 @@ public class RunMain {
     public static void changeQ(int idQ) throws SQLException {
         int stop = 1;
         while (stop == 1){
-            System.out.println("1.Đổi Tên");
-            System.out.println("2.Giới tính");
-            System.out.println("3.Địa chỉ");
-            System.out.println("4.Email");
-            System.out.println("5.Phone");
-            System.out.println("6.UserName");
-            System.out.println("7.Password");
-            System.out.println("8.Exit!");
+            System.out.println("|```````````````````````|");
+            System.out.println("|                    (2.1)|");
+            System.out.println("| 1.Đổi Tên             |");
+            System.out.println("| 2.Giới tính           |");
+            System.out.println("| 3.Địa chỉ             |");
+            System.out.println("| 4.Email               |");
+            System.out.println("| 5.Phone               |");
+            System.out.println("| 6.UserName            |");
+            System.out.println("| 7.Password            |");
+            System.out.println("| 8.Exit!               |");
+            System.out.println("|_______________________|");
             System.out.print("Nhập lựa chọn: ");
             int y = sc.nextInt();
             switch (y){
@@ -467,7 +619,7 @@ public class RunMain {
                 case 7:
                     System.out.print("Nhập new pass: ");
                     String passQ = sc.nextLine();
-                    PrQ.updateQName(idQ, passQ);
+                    PrQ.updateQPass(idQ, passQ);
                     System.out.println("Cập nhật thành công!");
                     break;
                 case 8:
@@ -479,10 +631,14 @@ public class RunMain {
     public static void showKH(){
         int stop = 1;
         while (stop == 1){
-            System.out.println("1.Show theo ten!");
-            System.out.println("2.Show theo id!");
-            System.out.println("3.Exit!");
-            System.out.println("Nhập lựa chọn: ");
+            System.out.println("|`````````````````````````````|");
+            System.out.println("|                          (2.1)|");
+            System.out.println("| 1.Show theo tên!            |");
+            System.out.println("| 2.Show theo id!             |");
+            System.out.println("| 3.Tìm kiếm theo tên!        |");
+            System.out.println("| 4.Exit!                     |");
+            System.out.println("|_____________________________|");
+            System.out.print("Nhập lựa chọn: ");
             int x = sc.nextInt();
             switch (x){
                 case 1:
@@ -494,6 +650,12 @@ public class RunMain {
                     System.out.println();
                     break;
                 case 3:
+                    sc.nextLine();
+                    System.out.print("Nhập từ muốn tìm kiếm: ");
+                    String ten = sc.nextLine();
+                    K.showIn4OneK(K.showOneKH(ten));
+                    break;
+                case 4:
                     stop = 0;
             }
         }
@@ -528,8 +690,9 @@ public class RunMain {
         System.out.println();
         System.out.print("Nhập id phim muốn xóa: ");
         int idP = sc.nextInt();
-        PrG.deleteG(idP);
+        //PrG.deleteG(idP);
         PrF.deleteP(idP);
+        PrDV.deleteDV(idP);
         System.out.println("Xóa phim thành công!");
         System.out.println();
 
@@ -538,20 +701,3 @@ public class RunMain {
         System.out.println();
     }
 }
-
-
-
-/*
-*NOTE:
-    - Thiếu chức năng kiểm tra xem ví tiền khách có đủ tiền để mua vé không? Không đủ thì sẽ phải nạp tiền rồi mới cho mua
-        Giải pháp: - Select cột ViTien trong sql của idK đó
-    - Chưa có chức năng lưu lại idK khi đã đặt vé (Thiếu chức năng này thì khi hủy vé Khách có thể hủy số ghế mà mình không đặt)
-        Giải pháp: - Thêm cột idK (ở dạng String) lưu lại các id của khách mà đã đặt vé trong sql sau đó kiểm tra
-            + Nếu chưa có id tức là chưa đặt
-            + Có idK rồi thì sẽ được thực hiện hủy đặt ghế nhưng sẽ có vấn đề là người này vẫn có thể hủy ghế của ng khác)
-                ~ Giải pháp: Tạo 1 bảng sql lưu trữ lại thông tin DatGhe(idK, số ghế khách đặt), sau khi kiểm tra khách đã đặt ghế thì
-                                    mình sẽ select cột "số ghế" của bảng thông tin DatGhe với where là idK rồi ssau đó so sánh số ghế mà
-                                    khách nhập để hủy có trùng với list này không, trùng thì oke còn không thì yc nhập lại hoặc thoát ra.
-                             Nhỡ khách mà quên mất số ghế mà mình đặt thì sẽ bật chức năng xem lịch sử hoạt động ("bạn đã đặt ghế số ... ) (đã có chức năng này nhưng sẽ chưa áp dụng vào đây)
-                             Thêm chức năng show ViTien khi đã đặt hoặc hủy ghế thành công cho khách xem (đã có chức năng này nhưng sẽ chưa áp dụng vào đây )
- */

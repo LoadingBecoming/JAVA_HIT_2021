@@ -63,4 +63,8 @@ public class Phim {
                 ", moTa='" + moTa + '\'' +
                 '}';
     }
+
+    public void showP(){
+        System.out.printf("%-5d %-30s %-13s %-15s %s \n", getIdP(), getTenP(), getThoiLuong(), getTheLoai(), getMoTa());
+    }
 }

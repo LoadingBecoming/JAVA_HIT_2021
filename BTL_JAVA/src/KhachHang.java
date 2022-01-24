@@ -120,4 +120,16 @@ public class KhachHang implements Comparable<KhachHang>{
                 ", viTien=" + viTien +
                 '}';
     }
+
+    public void showMeK(){
+        System.out.printf("%-10s %-20s %-15s %-15s %-20s %-10s %-10s %-10s %s \n","Id", "Tên", "Giới tính", "Địa chỉ",
+                "Email", "Phone", "Username", "Password", "Ví tiền");
+        System.out.printf("%-5d %-25s %-15s %-15s %-20s %-12s %-10s %-10s %d \n", getIdK(), getTenK(), getGioiTinhK(), getDiaChiK(),
+                getEmailK(), getPhoneK(), getUsernameK(), getPasswordK(), getViTien());
+    }
+
+    public void showMeK2(){
+        System.out.printf("%-5d %-25s %-15s %-15s %-20s %-17s %d \n", getIdK(), getTenK(), getGioiTinhK(), getDiaChiK(),
+                getEmailK(), getPhoneK(), getViTien());
+    }
 }

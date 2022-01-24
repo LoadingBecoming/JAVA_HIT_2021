@@ -26,10 +26,9 @@ public class Film {
     }
 
     public static void showP(List<Phim> dsP){
+        System.out.printf("%-5s %-28s %-15s %-15s %s \n", "Id", "Tên phim", "Thời lượng", "Thể loại", "Lịch chiếu");
         for(Phim phim:dsP)
-            System.out.println(phim);
+            phim.showP();
     }
-
-
 
 }
