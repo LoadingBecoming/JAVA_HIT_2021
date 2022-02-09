@@ -15,14 +15,12 @@ public class SQLProcessGT {
         }
     }
 
-    public static int insertCheckGT(int idK, int Tien){
-        String sqlInsert = "insert into CheckGT values ('"+idK+"', '"+Tien+"')";
-        try {
-            return statement.executeUpdate(sqlInsert);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return -1;
-        }
+    public static void insertCheckGT(int idK, int Tien) throws SQLException {
+        String sqlInsert = "insert into CheckGT (IdK, Tien) values (?,?)";
+        PreparedStatement preparedStatement = conn.prepareStatement(sqlInsert);
+        preparedStatement.setInt(1,idK);
+        preparedStatement.setInt(2,Tien);
+        preparedStatement.executeUpdate();
     }
 
     public static void updateCheckGT(int idK, int Tien) throws SQLException {

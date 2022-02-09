@@ -82,14 +82,16 @@ public class RunMain {
     public static void LoginK() throws SQLException, InterruptedException {
         sc.nextLine();
         String tk, mk;
-        int idK = 0;
+        int idK ;
         System.out.print("Nhap tai khoan: ");
         tk = sc.nextLine();
         System.out.print("Nhap mat khau: ");
         mk = sc.nextLine();
         idK = CheckLoginK(tk, mk);
-        if (idK >= 0)
+        if (idK > 0){
+            PrGT.insertCheckGT(idK, 0);
             AcctiveKH(idK);
+        }
         else {
             System.out.println("Tai khoan hoac mat khau cua ban khong dung!");
         }
@@ -262,23 +264,25 @@ public class RunMain {
                 System.out.print("Bạn muốn hủy ghế số: ");
                 int sG = sc.nextInt();
                 if(PrDV.checkHuyDV(PrDV.mangSoGheDV(iP, idK), sG)){
-                    PrDV.huyGheDV(PrDV.mangSoGheDV(iP, idK, "NL"), sG, iP, idK, "NL");
-                    PrDV.huyGheDV(PrDV.mangSoGheDV(iP, idK, "TE"), sG, iP, idK, "TE");
+                    System.out.println("Bạn đã hủy đặt ghế thành công!");
 
                     for(int i=0;i<PrDV.mangSoGheDV(iP, idK, "NL").size();i++){
                         if(PrDV.mangSoGheDV(iP, idK, "NL").get(i) == sG){
                             K.themTien(idK, PrV.getVNL());
+
                             break;
                         }
                     }
+                    PrDV.huyGheDV(PrDV.mangSoGheDV(iP, idK, "NL"), sG, iP, idK, "NL");
+
                     for(int i=0;i<PrDV.mangSoGheDV(iP, idK, "TE").size();i++){
                         if(PrDV.mangSoGheDV(iP, idK, "TE").get(i) == sG){
                             K.themTien(idK, PrV.getVTE());
                             break;
                         }
                     }
+                    PrDV.huyGheDV(PrDV.mangSoGheDV(iP, idK, "TE"), sG, iP, idK, "TE");
 
-                    System.out.println("Bạn đã hủy đặt ghế thành công!");
                     System.out.println();
 
                     String hG = "Bạn đã hủy ghế xem phim!";
@@ -410,9 +414,7 @@ public class RunMain {
         String diaChiK = acc.creDiaChi();
         String emailK = acc.creEmail();
         String phoneK = acc.crePhone();
-        int idK = K.creIDKH(K.allDsKH());
         PrK.insertKH(NameK, gioiTinhK, diaChiK, emailK, phoneK, userNameK, passK, 0);
-        PrGT.insertCheckGT(idK, 0);
         System.out.println("Tạo account thành công!");
     }
 
@@ -423,7 +425,7 @@ public class RunMain {
     }
 
     public static void showLs(int idk){
-        List<lichSu> dsLS = new ArrayList<>();
+        List<lichSu> dsLS;
         dsLS = PrL.showLS(idk);
         System.out.printf("%-40s %s \n","Lịch sử hoạt động", "Thời gian");
         for(lichSu lichsu:dsLS){
@@ -481,8 +483,9 @@ public class RunMain {
             System.out.println("| 4.Xem danh sách khách hàng!         |");
             System.out.println("| 5.Thêm/Xóa phim!                    |");
             System.out.println("| 6.Tạo giá vé!                       |");
-            System.out.println("| 7.Thay đổi thưởng bí ẩn!            |");
-            System.out.println("| 8.Exit!                             |");
+            System.out.println("| 7.Show doanh thu!                   |");
+            System.out.println("| 8.Thay đổi thưởng bí ẩn!            |");
+            System.out.println("| 9.Exit!                             |");
             System.out.println("|_____________________________________|");
             System.out.print("Nhập lựa chọn: ");
             int x = sc.nextInt();
@@ -555,9 +558,12 @@ public class RunMain {
                     PrV.changeGia();
                     break;
                 case 7:
-                    quanLy.changeGT();
+                    PrDT.showDT();
                     break;
                 case 8:
+                    quanLy.changeGT();
+                    break;
+                case 9:
                     stop = 0;
             }
         }

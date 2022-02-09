@@ -34,7 +34,7 @@ public class Khach {
 
     public static List<KhachHang> allDsKH(){
         List<KhachHang> dsKH = new ArrayList<>();
-        String sql = "Select * from KhachHang order by IdK";
+        String sql = "Select * from KhachHang";
         try {
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()){
@@ -132,7 +132,7 @@ public class Khach {
         System.out.println("*Nạp tích lũy " + PrGT.getDK() + " để mở chức năng ẩn!");
         System.out.println("Hãy nhập 1 con số để nạp: ");
         int x = sc.nextInt();
-        String sql = "select ViTIen from KhachHang where IdK = '"+idK+"' ";
+        String sql = "select ViTien from KhachHang where IdK = '"+idK+"' ";
         try{
             PrGT.updateNapGT(idK, x);
             String np = "Bạn đã nạp ";
@@ -156,13 +156,14 @@ public class Khach {
     }
 
     public static void truTien(int idK, int x) {
-        String sql = "select ViTIen from KhachHang where IdK = '"+idK+"' ";
+        String sql = "select ViTien from KhachHang where IdK = '"+idK+"' ";
         try{
             ResultSet resultSet = statement.executeQuery(sql);
             resultSet.next();
-            x = resultSet.getInt("ViTien") - x;
-            PrK.updateViTien(idK, x);
-            System.out.println("Ví tiền hiện tại của bạn là " + x);
+            int y ;
+            y = resultSet.getInt("ViTien") - x;
+            PrK.updateViTien(idK, y);
+            System.out.println("Ví tiền hiện tại của bạn là " + y);
         }catch (SQLException e){
             e.printStackTrace();
         }
@@ -170,13 +171,14 @@ public class Khach {
     }
 
     public static void themTien(int idK, int x) {
-        String sql = "select ViTIen from KhachHang where IdK = '"+idK+"' ";
+        String sql = "select ViTien from KhachHang where IdK = '"+idK+"' ";
         try{
             ResultSet resultSet = statement.executeQuery(sql);
             resultSet.next();
-            x = resultSet.getInt("ViTien") + x;
-            PrK.updateViTien(idK, x);
-            System.out.println("Ví tiền hiện tại của bạn là " + x);
+            int y ;                                               // do x có thể lấy từ sql ra, x không thể thay đổi giá trị
+            y = resultSet.getInt("ViTien") + x;
+            PrK.updateViTien(idK, y);
+            System.out.println("Ví tiền hiện tại của bạn là " + y);
         }catch (SQLException e){
             e.printStackTrace();
         }
@@ -184,7 +186,7 @@ public class Khach {
 
     public static int checkViTien(int idK){
         int x;
-        String sql = "select ViTIen from KhachHang where IdK = '"+idK+"' ";
+        String sql = "select ViTien from KhachHang where IdK = '"+idK+"' ";
         try{
             ResultSet resultSet = statement.executeQuery(sql);
             resultSet.next();
